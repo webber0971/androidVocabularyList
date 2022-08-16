@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
 @Entity
 class Word(
     @ColumnInfo(name = "English")
-    val english : String,
+    var english : String,
     @ColumnInfo(name = "Chinese_Meaning")
-    val chineseMeaning : String
+    var chineseMeaning : String
 ) {
     @PrimaryKey(autoGenerate = true)
-    val id :Int=0
+    var id :Int=0
 }

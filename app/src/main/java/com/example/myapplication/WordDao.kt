@@ -1,9 +1,6 @@
 package com.example.myapplication
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao //data access object
 interface WordDao {
@@ -13,9 +10,12 @@ interface WordDao {
     @Delete
     fun deleteWords(vararg word: Word)
 
+    @Update
+    fun updateWords(vararg word: Word)
+
     @Query("DELETE FROM WORD")
     fun deleteAllWords()
 
     @Query("SELECT * FROM WORD ORDER BY ID DESC")
-    fun getNewWords():List<Word>
+    fun getAllWords():List<Word>
 }
