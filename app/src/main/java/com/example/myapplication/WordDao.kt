@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao //data access object
@@ -17,5 +18,5 @@ interface WordDao {
     fun deleteAllWords()
 
     @Query("SELECT * FROM WORD ORDER BY ID DESC")
-    fun getAllWords():List<Word>
+    fun getAllWordsLive():LiveData<List<Word>>
 }
