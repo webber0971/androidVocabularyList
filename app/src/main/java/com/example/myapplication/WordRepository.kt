@@ -14,10 +14,7 @@ class WordRepository(context: Context) {
     fun insertWord(vararg word: Word) {
         GlobalScope.launch {
             withContext(Dispatchers.Default) {
-                val word1 = Word("how", "如何~")
-                val word2 = Word("hello", "你好")
-                val word3 = Word("taiwan", "台灣")
-                wordDao.insertWords(word1, word2, word3)
+                wordDao.insertWords(*word)
             }
         }
     }
