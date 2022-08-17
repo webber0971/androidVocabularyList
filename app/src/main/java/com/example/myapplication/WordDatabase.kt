@@ -9,13 +9,18 @@ import androidx.room.RoomDatabase
 abstract class WordDatabase: RoomDatabase() {
     companion object{
         private var INSTANCE:WordDatabase ?= null
-        fun getDatabase(context: Context):WordDatabase{
-            var instance= INSTANCE
-            if(instance==null){
-                instance=Room.databaseBuilder(context.applicationContext,WordDatabase::class.java,"Eeko").allowMainThreadQueries().build()
-                INSTANCE=instance
+        @Synchronized
+        fun  getDatabase(context: Context):WordDatabase {
+            synchronized(this) {
+            var instance = INSTANCE
+            if (instance == null) {
+                instance = Room.databaseBuilder(context.applicationContext,
+                    WordDatabase::class.java,
+                    "Eeko").fallbackToDestructiveMigration().build()
+                INSTANCE = instance
             }
             return instance
+            }
         }
 
 

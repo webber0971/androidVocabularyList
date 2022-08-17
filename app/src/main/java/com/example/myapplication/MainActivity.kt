@@ -6,8 +6,12 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
-
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var wordDatabase: WordDatabase
     private lateinit var textView: TextView
     private lateinit var allWordsLive:LiveData<List<Word>>
+    private lateinit var wordViewModel: WordViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +33,8 @@ class MainActivity : AppCompatActivity() {
         deleteButton = findViewById(R.id.deleteButton)
         cleanButton = findViewById(R.id.cleanButton)
         updateButton = findViewById(R.id.updateButton)
-        wordDatabase = Room.databaseBuilder(this, WordDatabase::class.java, "Eeko").allowMainThreadQueries().build()
-        wordDao = wordDatabase.getWordDao()
-        allWordsLive=wordDao.getAllWordsLive()
+        wordViewModel=ViewModelProvider(this).get(WordViewModel::class.java)
+        allWordsLive=wordViewModel.allWordsLive
         textView = findViewById(R.id.textView)
         allWordsLive.observe(this, Observer {
             val list: List<Word> =it
@@ -43,34 +47,19 @@ class MainActivity : AppCompatActivity() {
         })
 
         insertButton.setOnClickListener() {
-            val word1 = Word("how", "如何~")
-            val word2 = Word("hello", "你好")
-            val word3 = Word("taiwan", "台灣")
-            wordDao.insertWords(word1,word2,word3)
+            wordViewModel.insertWord()
         }
         deleteButton.setOnClickListener(){
-            val lastWord= allWordsLive.value?.get(0)
-            if (lastWord != null) {
-                wordDao.deleteWords(lastWord)
-            }
+            wordViewModel.deleteWords()
         }
         cleanButton.setOnClickListener(){
-            wordDao.deleteAllWords()
+            wordViewModel.deleteAllWords()
         }
         updateButton.setOnClickListener(){
-            val lastWord=  allWordsLive.value?.get(0)
-            if (lastWord != null) {
-                lastWord.english="404"
-            }
-            if (lastWord != null) {
-                lastWord.chineseMeaning="404"
-            }
-            if (lastWord != null) {
-                wordDao.updateWords(lastWord)
-            }
+            wordViewModel.updateWords()
         }
-
     }
+
 
 
 
