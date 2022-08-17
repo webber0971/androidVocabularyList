@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         allWordsLive=wordViewModel.allWordsLive
         //創建recycleview實體
         recyclerView=findViewById(R.id.recyclerView)
-        myAdapter_normal= MyAdapter(false)
-        myAdapter_card= MyAdapter(true)
+        myAdapter_normal= MyAdapter(false,wordViewModel)
+        myAdapter_card= MyAdapter(true,wordViewModel)
         recyclerView.layoutManager=LinearLayoutManager(this)
         recyclerView.adapter=myAdapter_normal
         switch.setOnClickListener(){
@@ -50,10 +50,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
         allWordsLive.observe(this, Observer {
-            myAdapter_card.allWords=it
-            myAdapter_normal.allWords=it
-            myAdapter_normal.notifyDataSetChanged()
-            myAdapter_card.notifyDataSetChanged()
+            val tempListSize=myAdapter_normal.allWords.size
+            myAdapter_card.allWords = it
+            myAdapter_normal.allWords = it
+            if(tempListSize != it.size) {
+                myAdapter_normal.notifyDataSetChanged()
+                myAdapter_card.notifyDataSetChanged()
+            }
         })
         insertButton.setOnClickListener() {
             wordViewModel.insertWord()

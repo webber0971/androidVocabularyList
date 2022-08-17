@@ -4,6 +4,7 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent"
+                                                   android:background="@color/teal_200"
                                                    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="365dp" />
+        app:layout_constraintGuide_begin="471dp" />
 
     <Button
         android:id="@+id/insertButton"
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="37dp"
         android:text="insert"
-        app:layout_constraintEnd_toStartOf="@+id/switch1"
+        app:layout_constraintEnd_toStartOf="@+id/switchInActivity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
@@ -31,7 +32,7 @@
         android:text="clean"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/switch1"
+        app:layout_constraintStart_toEndOf="@+id/switchInActivity"
         app:layout_constraintTop_toTopOf="@+id/insertButton" />
 
     <androidx.recyclerview.widget.RecyclerView

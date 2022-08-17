@@ -14,4 +14,8 @@ class Word(
 ) {
     @PrimaryKey(autoGenerate = true)
     var id :Int=0
+    @ColumnInfo(name = "bar_data")
+    var barData:Boolean=false
+    @ColumnInfo(name = "chinese_invisible")
+    var chineseInvisible:Boolean=false
 }
