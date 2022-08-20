@@ -23,13 +23,7 @@ class WordRepository(context: Context) {
     fun deleteWords(vararg word: Word) {
         GlobalScope.launch {
             withContext(Dispatchers.Default) {
-                val allWordsSize = allWordsLive.value?.size
-                if (allWordsSize != 0) {
-                    val lastWord = allWordsLive.value?.get(0)
-                    if (lastWord != null) {
-                        wordDao.deleteWords(lastWord)
-                    }
-                }
+                wordDao.deleteWords(*word)
             }
         }
     }
