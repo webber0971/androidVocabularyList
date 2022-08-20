@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 
 
 class WordViewModel(application: Application) :AndroidViewModel(application){
@@ -21,5 +22,9 @@ class WordViewModel(application: Application) :AndroidViewModel(application){
     }
     fun deleteAllWords(){
         wordRepository.deleteAllWords()
+    }
+
+    fun findWordsWithPatten(patten :String):LiveData<List<Word>>{
+        return wordRepository.findWordsWithPatten(patten)
     }
 }

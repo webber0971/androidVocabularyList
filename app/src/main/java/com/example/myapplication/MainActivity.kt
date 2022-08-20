@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
         navController=navHostFragment.navController
         NavigationUI.setupActionBarWithNavController(this,navController)
     }
+//因為不想要所有頁面都顯示menu，所以移到wordsFragment
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu,menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         navController.navigateUp()

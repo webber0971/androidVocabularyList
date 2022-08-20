@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.ListAdapter
 import androidx.room.*
 
 @Dao //data access object
@@ -16,6 +17,9 @@ interface WordDao {
 
     @Query("DELETE FROM WORD")
     fun deleteAllWords()
+
+    @Query("SELECT * FROM WORD WHERE English LIKE:patten ORDER BY ID DESC")
+    fun findWordsWithPatten(patten:String):LiveData<List<Word>>
 
     @Query("SELECT * FROM WORD ORDER BY ID DESC")
     fun getAllWordsLive():LiveData<List<Word>>

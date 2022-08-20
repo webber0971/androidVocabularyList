@@ -11,6 +11,7 @@ class WordRepository(context: Context) {
     val wordDatabase = WordDatabase.getDatabase(context.applicationContext)
     val wordDao = wordDatabase.getWordDao()
     val allWordsLive: LiveData<List<Word>> = wordDao.getAllWordsLive()
+
     fun insertWord(vararg word: Word) {
         GlobalScope.launch {
             withContext(Dispatchers.Default) {
@@ -48,4 +49,9 @@ class WordRepository(context: Context) {
             }
         }
     }
+    //sqlite模糊匹配前後需加上%
+    fun findWordsWithPatten(patten : String ):LiveData<List<Word>>{
+        return wordDao.findWordsWithPatten("%"+patten+"%")
+    }
+
 }

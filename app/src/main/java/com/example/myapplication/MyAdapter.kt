@@ -7,16 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
-class MyAdapter(isCard:Boolean,wordViewModel: WordViewModel): RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(isCard:Boolean,wordViewModel: WordViewModel):
+    ListAdapter<Word, MyAdapter.MyViewHolder>(object : DiffUtil.ItemCallback<Word>(){
+        //使用ListAdapter可以更方便的使用其對於列表更新時的動畫，使畫面變動時更平順
+
+        //先比較列表中的兩個元素是否相同(primaryKey是否相同)
+        override fun areItemsTheSame(oldItem: Word, newItem: Word): Boolean {
+            return oldItem.id == newItem.id        }
+        //在比較內容是否相同
+        override fun areContentsTheSame(oldItem: Word, newItem: Word): Boolean {
+            return oldItem.english.equals(newItem.english) && oldItem.chineseMeaning.equals(newItem.chineseMeaning) && oldItem.chineseInvisible==newItem.chineseInvisible
+        }
+
+    }) {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textViewNumber=itemView.findViewById<TextView>(R.id.textViewNumber)
         val textViewEnglish = itemView.findViewById<TextView>(R.id.textViewEnglish)
         val textViewChineseMeaning = itemView.findViewById<TextView>(R.id.textViewChinese)
         val switchChineseInvisible=itemView.findViewById<Switch>(R.id.switchChineseInvisible)
     }
-    var allWords : List<Word> = listOf()
+//    var allWords : List<Word> = listOf()  用listAdapter時有自帶列表，使用getItem即可
     var isCard:Boolean=isCard
     val wordViewModel=wordViewModel
 
@@ -53,10 +67,15 @@ class MyAdapter(isCard:Boolean,wordViewModel: WordViewModel): RecyclerView.Adapt
         return MyViewHolder(itemView)
 
     }
+    //當出現在螢幕上時就顯示序列號
+    override fun onViewAttachedToWindow(holder: MyViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.textViewNumber.text=(holder.adapterPosition+1).toString()
+    }
 
     //綁定邏輯上的關聯，顯示textview中的內容
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val word = allWords[position]
+        val word = getItem(position)
         holder.itemView.setTag(R.id.word_for_view_holder,word)
         holder.textViewNumber.text=(position+1).toString()
         holder.textViewEnglish.text=word.english
@@ -70,8 +89,8 @@ class MyAdapter(isCard:Boolean,wordViewModel: WordViewModel): RecyclerView.Adapt
         }
     }
 
-    override fun getItemCount(): Int {
-        return allWords.size
-    }
+//    override fun getItemCount(): Int {
+//        return itemCount
+//    }
 
 }
