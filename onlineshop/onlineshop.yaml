@@ -22,11 +22,153 @@
   }, {
     "name" : "developers",
     "description" : "Operations available to regular developers"
+  }, {
+    "name" : "member information"
+  }, {
+    "name" : "kk"
   } ],
   "paths" : {
+    "/api/member" : {
+      "get" : {
+        "tags" : [ "member information" ],
+        "summary" : "get member information",
+        "responses" : {
+          "200" : {
+            "description" : "email name member_id",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/MemberInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "error response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "member information" ],
+        "summary" : "login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/LoginInfo"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "email name member_id",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LoginSuccessResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "error response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "member information" ],
+        "summary" : "register a new account",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BuileNewMemberInfo"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "email name member_id",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/LoginSuccessResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "error response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "member information" ],
+        "summary" : "register a new account",
+        "responses" : {
+          "200" : {
+            "description" : "delete cookie contain jwt_token"
+          },
+          "400" : {
+            "description" : "error response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/inventory" : {
       "get" : {
-        "tags" : [ "developers" ],
+        "tags" : [ "member information" ],
         "summary" : "searches inventory",
         "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
         "operationId" : "searchInventory",
@@ -116,6 +258,79 @@
   },
   "components" : {
     "schemas" : {
+      "LoginInfo" : {
+        "required" : [ "email", "password" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "example" : "webbXXX@gmail"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "123456789aaa"
+          }
+        }
+      },
+      "LoginSuccessResponse" : {
+        "required" : [ "data", "status" ],
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "example" : "ok"
+          },
+          "data" : {
+            "type" : "string",
+            "example" : "jwt_token"
+          }
+        }
+      },
+      "BuileNewMemberInfo" : {
+        "required" : [ "email", "name", "password" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "example" : "webbXXX@gmail"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "123456789aaa"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "nnaammee"
+          }
+        }
+      },
+      "MemberInfo" : {
+        "required" : [ "email", "member_id", "name" ],
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "example" : "webbXXX@gmail"
+          },
+          "member_id" : {
+            "type" : "integer",
+            "example" : 9527
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "nnaammee"
+          }
+        }
+      },
+      "ErrorMessage" : {
+        "required" : [ "error", "message" ],
+        "properties" : {
+          "error" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "message" : {
+            "type" : "string",
+            "example" : "error message"
+          }
+        }
+      },
       "InventoryItem" : {
         "required" : [ "id", "manufacturer", "name", "releaseDate" ],
         "type" : "object",
